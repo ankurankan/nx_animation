@@ -18,15 +18,18 @@ G.add_edges_from([(1,2), (2,3), (2,5), (1,5), (2,5)])
 nx.draw(G)
 
 # animation function for having node labelled 1 to move to random positions
+# If you are moving nodes it's labels and the corresponding edges will also 
+# move to their new positions
+
 def animate_one(i):
-    nx_animation.position(G, node=1, new_position=(random.uniform(0,1), random.uniform(0,1)))
+    nx_animation.set_position(G, node=1, new_position=(random.uniform(0,1), random.uniform(0,1)))
 
 # calling Matplotlib's FuncAnimation
 anim = animation.FuncAnimation(plt.gcf(), animate)
 
 # animation function for having each node take random positions
 def animate1_two(i):
-    nx_animation.position(G, new_position=[[random.uniform(0,1) for i in range(2)]
+    nx_animation.set_position(G, new_position=[[random.uniform(0,1) for i in range(2)]
                                         for j in range(5)])
 
 anim = animation.FuncAnimation(plt.gcf(), animate)
@@ -38,4 +41,9 @@ colors_list = ['r', 'b', 'g', 'm']
 
 TODO: add another function for changing only one node
 def animate_three(i):
-    nx.animation.color(G, new_colors=[random.choice(colors_list) for i in range(5)])
+    nx.animation.set_color(G, new_colors=[random.choice(colors_list) for i in range(5)])
+
+anim = animation.FuncAnimation(plt.gcf(), animate)
+```
+All other properties can be changed in matplotlib's `PathCollection` and 
+`LineCollection` objects can also be edited.
