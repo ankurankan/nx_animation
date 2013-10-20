@@ -22,14 +22,14 @@ nx.draw(G)
 # move to their new positions
 
 def animate_one(i):
-    nx_animation.set_position(G, node=1, position=(random.uniform(0,1), random.uniform(0,1)))
+    nx_animation.set_node_position(G, node=1, position=(random.uniform(0,1), random.uniform(0,1)))
 
 # calling Matplotlib's FuncAnimation
 anim = animation.FuncAnimation(plt.gcf(), animate)
 
 # animation function for having each node take random positions
 def animate1_two(i):
-    nx_animation.set_position(G, position=[[random.uniform(0,1) for i in range(2)]
+    nx_animation.set_node_position(G, position=[[random.uniform(0,1) for i in range(2)]
                                         for j in range(5)])
 
 anim = animation.FuncAnimation(plt.gcf(), animate)
