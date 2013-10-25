@@ -27,7 +27,6 @@ def set_node_position(G, node=None, position=None):
         # move edge
         edges_collection = axes.get_children()[no_of_nodes + 3]
         for edge in edges_collection.get_paths():
-            print(edge.vertices)
             if compare(edge.vertices[0], prev_position):
                 edge.vertices[0] = position
             elif compare(edge.vertices[1], prev_position):
