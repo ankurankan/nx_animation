@@ -1,6 +1,6 @@
-import networkx as nx
 import matplotlib.pyplot as plt
 import copy
+import sys
 
 
 def compare(li1, li2):
@@ -10,13 +10,16 @@ def compare(li1, li2):
     return True
 
 
-def set_node_position(G, node=None, position=None):
-    '''
+def set_node_position(G, **kwargs):
+    """
     Moves node to position
 
     Parameters
     ----------
     G        : Graph whose nodes are to be moved
+
+    kwargs
+    ------
     node     : The node to move if not specified moves all the nodes to the
                corresponding position in position
     position : The new position of the node. If node specified should be in
@@ -30,7 +33,17 @@ def set_node_position(G, node=None, position=None):
     set_node_position(G, node=1, position=(0.5, 0.5))
     #Considering graph G has 3 nodes
     set_node_position(G, position=[(0.1,0.1), (0.2, 0.2), (0.3, 0.3)]
-    '''
+    """
+    try:
+        node = kwargs['node']
+    except KeyError:
+        pass
+    try:
+        position = kwargs['position']
+    except KeyError:
+        print("position argument required")
+        sys.exit(0)
+
     fig = plt.gcf()
     axes = plt.gca()
     node_index = G.nodes().index(node)
@@ -57,3 +70,6 @@ def set_node_position(G, node=None, position=None):
         label.set_position([x,y])
 
     plt.draw()
+
+def set_node_color(G, **kwargs):
+    pass
