@@ -11,6 +11,26 @@ def compare(li1, li2):
 
 
 def set_node_position(G, node=None, position=None):
+    '''
+    Moves node to position
+
+    Parameters
+    ----------
+    G        : Graph whose nodes are to be moved
+    node     : The node to move if not specified moves all the nodes to the
+               corresponding position in position
+    position : The new position of the node. If node specified should be in
+               form (x,y) or [x,y]. If node not specified should be in form
+               [(x1,y1), (x2,y2), (x3,y3)]. It must have new position for
+               each node in the graph.
+
+    Example
+    -------
+    set_node_position(G, node=1, position=[0.5, 0.5])
+    set_node_position(G, node=1, position=(0.5, 0.5))
+    #Considering graph G has 3 nodes
+    set_node_position(G, position=[(0.1,0.1), (0.2, 0.2), (0.3, 0.3)]
+    '''
     fig = plt.gcf()
     axes = plt.gca()
     node_index = G.nodes().index(node)
