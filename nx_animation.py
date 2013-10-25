@@ -1,5 +1,6 @@
 import networkx as nx
 import matplotlib.pyplot as plt
+import copy
 
 
 def compare(li1, li2):
@@ -12,7 +13,7 @@ def compare(li1, li2):
 def set_node_position(G, node=None, position=None):
     fig = plt.gcf()
     axes = plt.gca()
-    index = G.nodes().index(node)
+    node_index = G.nodes().index(node)
     no_of_nodes = G.number_of_nodes()
 
     if node:
@@ -20,19 +21,20 @@ def set_node_position(G, node=None, position=None):
         x, y = position
         nodes_collection = axes.get_children()[no_of_nodes + 2]
         prev_positions = nodes_collection.get_offsets()
-        prev_position = prev_positions[index]
-        prev_positions[index] = [x, y]
+        prev_position = copy.deepcopy(prev_positions[node_index])
+        prev_positions[node_index] = [x, y]
 
         # move edge
         edges_collection = axes.get_children()[no_of_nodes + 3]
         for edge in edges_collection.get_paths():
+            print(edge.vertices)
             if compare(edge.vertices[0], prev_position):
                 edge.vertices[0] = position
-                print("Got one")
             elif compare(edge.vertices[1], prev_position):
                 edge.vertices[1] = position
-                print("Got one")
-        label = axes.get_children()[index + 2]
+
+        # move label
+        label = axes.get_children()[node_index + 2]
         label.set_position([x,y])
 
     plt.draw()
