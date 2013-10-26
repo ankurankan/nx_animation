@@ -37,7 +37,7 @@ def set_node_position(G, **kwargs):
     try:
         node = kwargs['node']
     except KeyError:
-        pass
+        node = None
     try:
         position = kwargs['position']
     except KeyError:
@@ -68,9 +68,10 @@ def set_node_position(G, **kwargs):
 
         # move label
         label = axes.get_children()[node_index + 2]
-        label.set_position([x,y])
+        label.set_position([x, y])
 
     plt.draw()
+
 
 def set_node_color(G, **kwargs):
     """
@@ -78,7 +79,7 @@ def set_node_color(G, **kwargs):
 
     Parameters
     ----------
-    G     : Graph whose's node's color needs to be changed
+    G     : Graph whose node's color needs to be changed
 
     kwargs
     ------
@@ -87,7 +88,7 @@ def set_node_color(G, **kwargs):
             color. If node not specified and color is a list or tuple of
             colors, each node will be changed to its corresponding color.
 
-    color : Can be a single value of a list of colors.kwargs
+    color : Can be a single value of a list of colors.
 
     The following color abbreviations are supported:
     ==========  ========
@@ -120,7 +121,8 @@ def set_node_color(G, **kwargs):
         print("color argument required")
         sys.exit(0)
 
-    if (isinstance(color, list) or isinstance(color, tuple)) and len(color) == 1:
+    if (isinstance(color, list) or isinstance(color, tuple)) and \
+            len(color) == 1:
         color = color[0]
 
     colors_dict = {'b': [0.,    0.,    1.,  1.],
@@ -137,8 +139,8 @@ def set_node_color(G, **kwargs):
     no_of_nodes = G.number_of_nodes()
     nodes_collection = axes.get_children()[no_of_nodes + 2]
 
-    # if node is specified manually changing the facecolor and edgecolor array so that
-    # the colors for other nodes are retained
+    # if node is specified manually changing the facecolor and edgecolor array
+    # so that the colors for other nodes are retained
     if node:
         node_index = G.nodes().index(node)
         facecolor_array = nodes_collection.get_facecolor()
@@ -149,3 +151,49 @@ def set_node_color(G, **kwargs):
     # if node not specified call the matplotlib's set_color function
     else:
         nodes_collection.set_color(color)
+
+    plt.draw()
+
+
+def set_node_size(G, **kwargs):
+    """
+    Change node size
+
+    Parameters
+    ----------
+    G    : The graph whose nodes are to be resized
+
+    kwargs
+    ------
+    node : The node whose size is to be changed. If node not specified size
+           of all the nodes will be changed.
+    size : If size is an int and node specified, that node's size would be
+           changed. If size is a list of tuple and no node specified each
+           node will be changed to it's corresponding size. If node not
+           specified and size is int all the nodes will be changed to that
+           value.
+    """
+    try:
+        node = kwargs['node']
+    except KeyError:
+        node = None
+    try:
+        size = kwargs['position']
+    except KeyError:
+        print("size argument required")
+        sys.exit(0)
+
+    fig = plt.gcf()
+    axes = plt.gca()
+    no_of_nodes = G.number_of_nodes()
+    nodes_collection = axes.get_children()[no_of_nodes + 2]
+
+    if node:
+        node_index = G.nodes().index(node)
+        line_width_arr = nodes_collection.get_linewidths()
+        line_width_arr[node_index] = size
+
+    else:
+        nodes_collection.set_linewidth(size)
+
+    plt.draw()
