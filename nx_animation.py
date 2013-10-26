@@ -104,7 +104,11 @@ def set_node_color(G, **kwargs):
     ==========  ========
 
     Examples:
-    set_node_color(G,
+    set_node_color(G, node=1, color='b')
+    set_node_color(G, node=1, color=['b'])
+    set_node_color(G, color=['r', 'b', 'g', 'y', 'm', 'k', 'c'])
+    set_node_color(G, color='b')
+    set_node_color(G, color=('b'))
     """
     try:
         node = kwargs['node']
@@ -115,6 +119,9 @@ def set_node_color(G, **kwargs):
     except KeyError:
         print("color argument required")
         sys.exit(0)
+
+    if (isinstance(color, list) or isinstance(color, tuple)) and len(color) == 1:
+        color = color[0]
 
     colors_dict = {'b': [0.,    0.,    1.,  1.],
                    'g': [0.,    0.5,   0.,  1.],
@@ -139,6 +146,6 @@ def set_node_color(G, **kwargs):
         facecolor_array[node_index] = colors_dict[color]
         edgecolor_array[node_index] = colors_dict[color]
 
-    # if node not specified call the matplotlibs set_color function
+    # if node not specified call the matplotlib's set_color function
     else:
         nodes_collection.set_color(color)
