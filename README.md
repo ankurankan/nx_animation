@@ -62,5 +62,5 @@ def animate_three(i):
 
 anim = animation.FuncAnimation(plt.gcf(), animate)
 ```
-All other properties can be changed in matplotlib's `PathCollection` and 
+All other properties that can be changed in matplotlib's `PathCollection` and
 `LineCollection` objects can also be edited.
