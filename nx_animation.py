@@ -197,3 +197,25 @@ def set_node_size(G, **kwargs):
         nodes_collection.set_linewidth(size)
 
     plt.draw()
+
+
+def set_node_style(G, **kwargs):
+    try:
+        node = kwargs['node']
+    except KeyError:
+        node = None
+    try:
+        style = kwargs['position']
+    except KeyError:
+        print("style argument required")
+        sys.exit(0)
+
+    fig = plt.gcf()
+    axes = plt.gca()
+    no_of_nodes = G.number_of_nodes()
+    nodes_collection = axes.get_children()[no_of_nodes + 2]
+
+    linestyle_dict = {'solid':   (None, None),
+                      'dotted':  (0, (1.0, 3.0)),
+                      'dashdot': (0, (3.0, 5.0, 1.0, 5.0))}
+    # Still incomplete Check what does the tuple values do
