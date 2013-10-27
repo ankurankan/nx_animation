@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import copy
 import sys
-
+import numpy as np
 
 def compare(li1, li2):
     for i, j in zip(li1, li2):
@@ -116,7 +116,7 @@ def set_node_color(G, **kwargs):
     except KeyError:
         node = None
     try:
-        color = kwargs['position']
+        color = kwargs['color']
     except KeyError:
         print("color argument required")
         sys.exit(0)
@@ -124,6 +124,18 @@ def set_node_color(G, **kwargs):
     if (isinstance(color, list) or isinstance(color, tuple)) and \
             len(color) == 1:
         color = color[0]
+
+    same_colors = {'blue': 'b',
+                   'green': 'g',
+                   'red': 'r',
+                   'cyan': 'c',
+                   'magenta': 'm',
+                   'yellow': 'y',
+                   'black': 'k',
+                   'white': 'w'}
+
+    if isinstance(color, str) and len(color) != 1:
+        color = same_colors[color]
 
     colors_dict = {'b': [0.,    0.,    1.,  1.],
                    'g': [0.,    0.5,   0.,  1.],
@@ -145,8 +157,13 @@ def set_node_color(G, **kwargs):
         node_index = G.nodes().index(node)
         facecolor_array = nodes_collection.get_facecolor()
         edgecolor_array = nodes_collection.get_edgecolor()
+        if len(facecolor_array) == 1:
+            facecolor_array = np.array([copy.deepcopy(facecolor_array[0].tolist()) for i in range(no_of_nodes)])
+            edgecolor_array = np.array([copy.deepcopy(edgecolor_array[0].tolist()) for i in range(no_of_nodes)])
+            print(facecolor_array)
         facecolor_array[node_index] = colors_dict[color]
         edgecolor_array[node_index] = colors_dict[color]
+        print(facecolor_array[0])
 
     # if node not specified call the matplotlib's set_color function
     else:
