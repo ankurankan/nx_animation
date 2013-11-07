@@ -198,7 +198,7 @@ def set_node_size(G, **kwargs):
     except KeyError:
         node = None
     try:
-        size = kwargs['position']
+        size = kwargs['size']
     except KeyError:
         print("size argument required")
         sys.exit(0)
@@ -210,8 +210,13 @@ def set_node_size(G, **kwargs):
 
     if node:
         node_index = G.nodes().index(node)
-        line_width_arr = nodes_collection.get_linewidths()
+        line_width_arr = nodes_collection.get_linewidth()
+        if len(line_width_arr) == 1:
+            element = line_width_arr[0]
+            line_width_arr = [copy.deepcopy(element) for i in range(no_of_nodes)]
         line_width_arr[node_index] = size
+        print(line_width_arr)
+        nodes_collection.set_linewidth(line_width_arr)
 
     else:
         nodes_collection.set_linewidth(size)
