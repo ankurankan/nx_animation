@@ -244,3 +244,13 @@ def set_node_style(G, **kwargs):
                       'dotted':  (0, (1.0, 3.0)),
                       'dashdot': (0, (3.0, 5.0, 1.0, 5.0))}
     # Still incomplete Check what does the tuple values do
+
+# TODO set_nodes_alpha
+
+# TODO set_edge_style
+
+# TODO set_edge_color
+
+# TODO set_edge_linewidth
+
+# TODO set_edge_alpha
