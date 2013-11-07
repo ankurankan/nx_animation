@@ -72,6 +72,7 @@ def set_node_position(G, **kwargs):
 
     plt.draw()
 
+# TODO separate set_node_facecolor and set_node_edgecolor
 
 def set_node_color(G, **kwargs):
     """
@@ -137,14 +138,14 @@ def set_node_color(G, **kwargs):
     if isinstance(color, str) and len(color) != 1:
         color = same_colors[color]
 
-    colors_dict = {'b': [0.,    0.,    1.,  1.],
-                   'g': [0.,    0.5,   0.,  1.],
-                   'r': [1.,    0.,    0.,  1.],
-                   'c': [0.,    0.75,  0.75,  1.],
-                   'm': [0.75,  0.,    0.75,  1.],
-                   'y': [0.75,  0.75,  0.,  1.],
-                   'k': [0.,    0.,    0.,  1.],
-                   'w': [1.,    1.,    1.,  1.]}
+    colors_dict = {'b': (0.,    0.,    1.,  1.),
+                   'g': (0.,    0.5,   0.,  1.),
+                   'r': (1.,    0.,    0.,  1.),
+                   'c': (0.,    0.75,  0.75,  1.),
+                   'm': (0.75,  0.,    0.75,  1.),
+                   'y': (0.75,  0.75,  0.,  1.),
+                   'k': (0.,    0.,    0.,  1.),
+                   'w': (1.,    1.,    1.,  1.)}
 
     fig = plt.gcf()
     axes = plt.gca()
@@ -155,15 +156,17 @@ def set_node_color(G, **kwargs):
     # so that the colors for other nodes are retained
     if node:
         node_index = G.nodes().index(node)
-        facecolor_array = nodes_collection.get_facecolor()
-        edgecolor_array = nodes_collection.get_edgecolor()
+        facecolor_array = nodes_collection.get_facecolor().tolist()
+        edgecolor_array = nodes_collection.get_edgecolor().tolist()
+        facecolor_array = [tuple(x) for x in facecolor_array]
+        edgecolor_array = [tuple(x) for x in edgecolor_array]
         if len(facecolor_array) == 1:
-            facecolor_array = np.array([copy.deepcopy(facecolor_array[0].tolist()) for i in range(no_of_nodes)])
-            edgecolor_array = np.array([copy.deepcopy(edgecolor_array[0].tolist()) for i in range(no_of_nodes)])
-            print(facecolor_array)
+            facecolor_array = [copy.deepcopy(facecolor_array[0]) for i in range(no_of_nodes)]
+        if len(edgecolor_array) == 1:
+            edgecolor_array = [copy.deepcopy(edgecolor_array[0]) for i in range(no_of_nodes)]
         facecolor_array[node_index] = colors_dict[color]
         edgecolor_array[node_index] = colors_dict[color]
-        print(facecolor_array[0])
+        nodes_collection.set_facecolor(facecolor_array)
 
     # if node not specified call the matplotlib's set_color function
     else:
