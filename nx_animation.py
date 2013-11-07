@@ -3,6 +3,7 @@ import copy
 import sys
 import numpy as np
 
+
 def compare(li1, li2):
     for i, j in zip(li1, li2):
         if i != j:
@@ -44,7 +45,8 @@ def set_node_position(G, **kwargs):
         print("position argument required")
         sys.exit(0)
 
-    # TODO: Recursive call the below for each node for it to work when no node is specified
+    # TODO: Recursive call the below for each node for it to work
+    # when no node is specified
 
     axes = plt.gca()
     node_index = G.nodes().index(node)
@@ -71,6 +73,7 @@ def set_node_position(G, **kwargs):
         label.set_position([x, y])
 
     plt.draw()
+
 
 # TODO separate set_node_facecolor and set_node_edgecolor
 
@@ -161,9 +164,11 @@ def set_node_color(G, **kwargs):
         facecolor_array = [tuple(x) for x in facecolor_array]
         edgecolor_array = [tuple(x) for x in edgecolor_array]
         if len(facecolor_array) == 1:
-            facecolor_array = [copy.deepcopy(facecolor_array[0]) for i in range(no_of_nodes)]
+            facecolor_array = [copy.deepcopy(facecolor_array[0])
+                               for i in range(no_of_nodes)]
         if len(edgecolor_array) == 1:
-            edgecolor_array = [copy.deepcopy(edgecolor_array[0]) for i in range(no_of_nodes)]
+            edgecolor_array = [copy.deepcopy(edgecolor_array[0])
+                               for i in range(no_of_nodes)]
         facecolor_array[node_index] = colors_dict[color]
         edgecolor_array[node_index] = colors_dict[color]
         nodes_collection.set_facecolor(facecolor_array)
@@ -213,7 +218,8 @@ def set_node_size(G, **kwargs):
         line_width_arr = nodes_collection.get_linewidth()
         if len(line_width_arr) == 1:
             element = line_width_arr[0]
-            line_width_arr = [copy.deepcopy(element) for i in range(no_of_nodes)]
+            line_width_arr = [copy.deepcopy(element)
+                              for i in range(no_of_nodes)]
         line_width_arr[node_index] = size
         print(line_width_arr)
         nodes_collection.set_linewidth(line_width_arr)
@@ -245,6 +251,7 @@ def set_node_style(G, **kwargs):
                       'dashdot': (0, (3.0, 5.0, 1.0, 5.0))}
     # Still incomplete Check what does the tuple values do
 
+
 def set_node_alpha(G, alpha):
     fig = plt.gcf()
     axes = plt.gca()
@@ -261,3 +268,5 @@ def set_node_alpha(G, alpha):
 # TODO set_edge_linewidth
 
 # TODO set_edge_alpha
+
+# problem with mapping edges to the one's that matplotlib selects by default
