@@ -245,7 +245,14 @@ def set_node_style(G, **kwargs):
                       'dashdot': (0, (3.0, 5.0, 1.0, 5.0))}
     # Still incomplete Check what does the tuple values do
 
-# TODO set_nodes_alpha
+def set_node_alpha(G, alpha):
+    fig = plt.gcf()
+    axes = plt.gca()
+    no_of_nodes = G.number_of_nodes()
+    nodes_collection = axes.get_children()[no_of_nodes + 2]
+
+    nodes_collection.set_alpha(alpha)
+    plt.draw()
 
 # TODO set_edge_style
 
