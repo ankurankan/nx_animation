@@ -13,11 +13,11 @@ G.add_nodes_from([1, 2, 3, 4, 5, 6])
 G.add_edges_from([(1,2), (1,3), (2,3), (2,6), (3,5), (5,6), (3,6)])
 nx.draw(G)
 ```
-[![Initial Image](http://s12.postimg.org/5cjh8k3al/figure_1.png)]
+![Initial Image](http://s12.postimg.org/5cjh8k3al/figure_1.png)
 ```python
 nx_animation.set_node_position(G, node=1, position=[0.5,0.5])
 ```
-[![Final Image](http://s9.postimg.org/bb1paf07z/figure_2.png)]
+![Final Image](http://s9.postimg.org/bb1paf07z/figure_2.png)
 
 Animation examples:
 ===================
