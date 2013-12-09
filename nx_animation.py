@@ -4,16 +4,9 @@ import sys
 import numpy as np
 
 
-def compare(li1, li2):
-    for i, j in zip(li1, li2):
-        if i != j:
-            return False
-    return True
-
-
 def set_node_position(G, **kwargs):
     """
-    Moves node to position
+    Moves node to position along with its edges.
 
     Parameters
     ----------
@@ -42,15 +35,40 @@ def set_node_position(G, **kwargs):
     try:
         position = kwargs['position']
     except KeyError:
-        print("position argument required")
+        print("postion argument required")
         sys.exit(0)
 
-    # TODO: Recursive call the below for each node for it to work
-    # when no node is specified
+    if node:
+        _set_single_node_position(G, node=node, position=position)
+    else:
+        for node_no in range(G.number_of_nodes()):
+            _set_single_node_position(G, node=G.nodes()[node_no],
+                                      position=position[node_no])
+
+
+def _set_single_node_position(G, **kwargs):
+    """
+    Moves a single node specified in node to the specified position.
+    """
+    try:
+        node = kwargs['node']
+    except KeyError:
+        node = None
+    try:
+        position = kwargs['position']
+    except KeyError:
+        print("position argument required")
+        sys.exit(0)
 
     axes = plt.gca()
     node_index = G.nodes().index(node)
     no_of_nodes = G.number_of_nodes()
+
+    def compare(li1, li2):
+        for i, j in zip(li1, li2):
+            if i != j:
+                return False
+        return True
 
     if node:
         # move node
