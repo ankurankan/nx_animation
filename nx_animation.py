@@ -94,6 +94,199 @@ def _set_single_node_position(G, **kwargs):
 
 
 # TODO separate set_node_facecolor and set_node_edgecolor
+def set_node_facecolor(G, **kwargs):
+    """
+    Changes node's facecolor
+
+    Parameters
+    ----------
+    G     : Graph whose node's facecolor needs to be changed
+
+    kwargs
+    ------
+    node  : The node whose facecolor needs to be changed. If node not specified
+            and only one color is specified changes all the nodes to that
+            facecolor. If node not specified and color is a list or tuple of
+            colors, each node will be changed to its corresponding color.
+
+    color : Can be a single value of a list of colors.
+
+    The following color abbreviations are supported:
+    ==========  ========
+    character   color
+    ==========  ========
+    'b'         blue
+    'g'         green
+    'r'         red
+    'c'         cyan
+    'm'         magenta
+    'y'         yellow
+    'k'         black
+    'w'         white
+    ==========  ========
+
+    Examples:
+    set_node_facecolor(G, node=1, color='b')
+    set_node_facecolor(G, node=1, color=['b'])
+    set_node_facecolor(G, color=['r', 'b', 'g', 'y', 'm', 'k', 'c'])
+    set_node_facecolor(G, color='b')
+    set_node_facecolor(G, color=('b'))
+    """
+    try:
+        node = kwargs['node']
+    except KeyError:
+        node = None
+    try:
+        color = kwargs['color']
+    except KeyError:
+        print("color argument required")
+        sys.exit(0)
+
+    if (isinstance(color, list) or isinstance(color, tuple)) and \
+            len(color) == 1:
+        color = color[0]
+
+    same_colors = {'blue': 'b',
+                   'green': 'g',
+                   'red': 'r',
+                   'cyan': 'c',
+                   'magenta': 'm',
+                   'yellow': 'y',
+                   'black': 'k',
+                   'white': 'w'}
+
+    if isinstance(color, str) and len(color) != 1:
+        color = same_colors[color]
+
+    colors_dict = {'b': (0.,    0.,    1.,  1.),
+                   'g': (0.,    0.5,   0.,  1.),
+                   'r': (1.,    0.,    0.,  1.),
+                   'c': (0.,    0.75,  0.75,  1.),
+                   'm': (0.75,  0.,    0.75,  1.),
+                   'y': (0.75,  0.75,  0.,  1.),
+                   'k': (0.,    0.,    0.,  1.),
+                   'w': (1.,    1.,    1.,  1.)}
+
+    fig = plt.gcf()
+    axes = plt.gca()
+    no_of_nodes = G.number_of_nodes()
+    nodes_collection = axes.get_children()[no_of_nodes + 2]
+
+    # if node is specified manually changing the facecolor array
+    # so that the colors for other nodes are retained
+    if node:
+        node_index = G.nodes().index(node)
+        facecolor_array = nodes_collection.get_facecolor().tolist()
+        facecolor_array = [tuple(x) for x in facecolor_array]
+        if len(facecolor_array) == 1:
+            facecolor_array = [copy.deepcopy(facecolor_array[0])
+                               for i in range(no_of_nodes)]
+        facecolor_array[node_index] = colors_dict[color]
+        nodes_collection.set_facecolor(facecolor_array)
+
+    # if node not specified call the matplotlib's set_facecolor function
+    else:
+        nodes_collection.set_facecolor(color)
+
+    plt.draw()
+
+
+def set_node_edgecolor(G, **kwargs):
+    """
+    Changes node edgecolors
+
+    Parameters
+    ----------
+    G     : Graph whose node's edgecolor needs to be changed
+
+    kwargs
+    ------
+    node  : The node whose edgecolor needs to be changed. If node not specified
+            and only one color is specified changes all the nodes to that
+            color. If node not specified and color is a list or tuple of
+            colors, each node will be changed to its corresponding color.
+
+    color : Can be a single value of a list of colors.
+
+    The following color abbreviations are supported:
+    ==========  ========
+    character   color
+    ==========  ========
+    'b'         blue
+    'g'         green
+    'r'         red
+    'c'         cyan
+    'm'         magenta
+    'y'         yellow
+    'k'         black
+    'w'         white
+    ==========  ========
+
+    Examples:
+    set_node_edgecolor(G, node=1, color='b')
+    set_node_edgecolor(G, node=1, color=['b'])
+    set_node_edgecolor(G, color=['r', 'b', 'g', 'y', 'm', 'k', 'c'])
+    set_node_edgecolor(G, color='b')
+    set_node_edgecolor(G, color=('b'))
+    """
+    try:
+        node = kwargs['node']
+    except KeyError:
+        node = None
+    try:
+        color = kwargs['color']
+    except KeyError:
+        print("color argument required")
+        sys.exit(0)
+
+    if (isinstance(color, list) or isinstance(color, tuple)) and \
+            len(color) == 1:
+        color = color[0]
+
+    same_colors = {'blue': 'b',
+                   'green': 'g',
+                   'red': 'r',
+                   'cyan': 'c',
+                   'magenta': 'm',
+                   'yellow': 'y',
+                   'black': 'k',
+                   'white': 'w'}
+
+    if isinstance(color, str) and len(color) != 1:
+        color = same_colors[color]
+
+    colors_dict = {'b': (0.,    0.,    1.,  1.),
+                   'g': (0.,    0.5,   0.,  1.),
+                   'r': (1.,    0.,    0.,  1.),
+                   'c': (0.,    0.75,  0.75,  1.),
+                   'm': (0.75,  0.,    0.75,  1.),
+                   'y': (0.75,  0.75,  0.,  1.),
+                   'k': (0.,    0.,    0.,  1.),
+                   'w': (1.,    1.,    1.,  1.)}
+
+    fig = plt.gcf()
+    axes = plt.gca()
+    no_of_nodes = G.number_of_nodes()
+    nodes_collection = axes.get_children()[no_of_nodes + 2]
+
+    # if node is specified manually changing the edgecolor array
+    # so that the colors for other nodes are retained
+    if node:
+        node_index = G.nodes().index(node)
+        edgecolor_array = nodes_collection.get_edgecolor().tolist()
+        edgecolor_array = [tuple(x) for x in edgecolor_array]
+        if len(edgecolor_array) == 1:
+            edgecolor_array = [copy.deepcopy(edgecolor_array[0])
+                               for i in range(no_of_nodes)]
+        edgecolor_array[node_index] = colors_dict[color]
+        nodes_collection.set_edgecolor(edgecolor_array)
+
+    # if node not specified call the matplotlib's set_edgecolor function
+    else:
+        nodes_collection.set_edgecolor(color)
+
+    plt.draw()
+
 
 def set_node_color(G, **kwargs):
     """
@@ -159,39 +352,13 @@ def set_node_color(G, **kwargs):
     if isinstance(color, str) and len(color) != 1:
         color = same_colors[color]
 
-    colors_dict = {'b': (0.,    0.,    1.,  1.),
-                   'g': (0.,    0.5,   0.,  1.),
-                   'r': (1.,    0.,    0.,  1.),
-                   'c': (0.,    0.75,  0.75,  1.),
-                   'm': (0.75,  0.,    0.75,  1.),
-                   'y': (0.75,  0.75,  0.,  1.),
-                   'k': (0.,    0.,    0.,  1.),
-                   'w': (1.,    1.,    1.,  1.)}
-
     fig = plt.gcf()
     axes = plt.gca()
     no_of_nodes = G.number_of_nodes()
     nodes_collection = axes.get_children()[no_of_nodes + 2]
-
-    # if node is specified manually changing the facecolor and edgecolor array
-    # so that the colors for other nodes are retained
     if node:
-        node_index = G.nodes().index(node)
-        facecolor_array = nodes_collection.get_facecolor().tolist()
-        edgecolor_array = nodes_collection.get_edgecolor().tolist()
-        facecolor_array = [tuple(x) for x in facecolor_array]
-        edgecolor_array = [tuple(x) for x in edgecolor_array]
-        if len(facecolor_array) == 1:
-            facecolor_array = [copy.deepcopy(facecolor_array[0])
-                               for i in range(no_of_nodes)]
-        if len(edgecolor_array) == 1:
-            edgecolor_array = [copy.deepcopy(edgecolor_array[0])
-                               for i in range(no_of_nodes)]
-        facecolor_array[node_index] = colors_dict[color]
-        edgecolor_array[node_index] = colors_dict[color]
-        nodes_collection.set_facecolor(facecolor_array)
-
-    # if node not specified call the matplotlib's set_color function
+        set_node_facecolor(G, **kwargs)
+        set_node_edgecolor(G, **kwargs)
     else:
         nodes_collection.set_color(color)
 
