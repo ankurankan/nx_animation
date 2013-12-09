@@ -406,7 +406,6 @@ def set_node_size(G, **kwargs):
             line_width_arr = [copy.deepcopy(element)
                               for i in range(no_of_nodes)]
         line_width_arr[node_index] = size
-        print(line_width_arr)
         nodes_collection.set_linewidth(line_width_arr)
 
     else:
@@ -434,7 +433,7 @@ def set_node_style(G, **kwargs):
     linestyle_dict = {'solid':   (None, None),
                       'dotted':  (0, (1.0, 3.0)),
                       'dashdot': (0, (3.0, 5.0, 1.0, 5.0))}
-    # Still incomplete Check what does the tuple values do
+    # TODO: Still incomplete Check what does the tuple values do
 
 
 def set_node_alpha(G, alpha):
