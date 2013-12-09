@@ -93,7 +93,6 @@ def _set_single_node_position(G, **kwargs):
     plt.draw()
 
 
-# TODO separate set_node_facecolor and set_node_edgecolor
 def set_node_facecolor(G, **kwargs):
     """
     Changes node's facecolor
@@ -382,6 +381,12 @@ def set_node_size(G, **kwargs):
            node will be changed to it's corresponding size. If node not
            specified and size is int all the nodes will be changed to that
            value.
+
+    Examples
+    --------
+    set_node_size(G, node=1, size=10)
+    set_node_size(G, size=5)
+    set_node_size(G, size=[1,2,3,4,5,6,7])
     """
     try:
         node = kwargs['node']
@@ -447,7 +452,44 @@ def set_node_alpha(G, alpha):
 
 # TODO set_edge_style
 
-# TODO set_edge_color
+def set_edge_color(G, **kwargs):
+    """
+    Change the color of the edges
+
+    Parameters
+    ----------
+    G    : The graph whose nodes are to be resized
+
+    kwargs
+    ------
+    edge : The edge whose color is to be changed. If edge
+           not specified and a single color value is given
+           all the edges are changed to the specified color.
+           If edge not given and color list is given the
+           color of the corresponding edge is changed. The
+           order of the nodes can be seen from G.edges()
+
+    color: Color value. Either a list of a single value
+    """
+    try:
+        edge = kwargs['edge']
+    except:
+        edge = None
+    try:
+        color = kwargs['color']
+    except:
+        print("color argument required")
+        sys.exit(0)
+
+    fig = plt.gcf()
+    axes = plt.gca()
+    no_of_edges = G.number_of_edges()
+    edges_collection = axes.get_children()[no_of_edges + 3]
+
+    if edge:
+#        TODO: complete this
+    else:
+        edges_collection.set_color(color)
 
 # TODO set_edge_linewidth
 
