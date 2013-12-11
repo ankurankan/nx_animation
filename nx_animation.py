@@ -608,6 +608,26 @@ def set_edge_linewidth(G, **kwargs):
 
     plt.draw()
 
-# TODO set_edge_alpha
 
-# problem with mapping edges to the one's that matplotlib selects by default
+def set_edge_alpha(G, **kwargs):
+    """
+    Example
+    -------
+    set_edge_alpha(G, alpha=0)
+    """
+    try:
+        edge = kwargs['edge']
+    except KeyError:
+        edge = None
+    try:
+        alpha = kwargs['alpha']
+    except KeyError:
+        print("alpha argument required")
+
+    fig = plt.gcf()
+    axes = plt.gca()
+    no_of_nodes = G.number_of_nodes()
+    edges_collection = axes.get_children()[no_of_nodes + 3]
+    edges_collection.set_linewidth(alpha)
+
+    plt.draw()
