@@ -481,7 +481,7 @@ def set_edge_color(G, **kwargs):
 
     Parameters
     ----------
-    G    : The graph whose nodes are to be resized
+    G    : The graph whose edges color are to be changed.
 
     kwargs
     ------
@@ -490,7 +490,7 @@ def set_edge_color(G, **kwargs):
            all the edges are changed to the specified color.
            If edge not given and color list is given the
            color of the corresponding edge is changed. The
-           order of the nodes can be seen from G.edges()
+           order of the edges can be seen from G.edges()
 
     color: Color value. Either a list of a single value
 
@@ -536,8 +536,9 @@ def set_edge_color(G, **kwargs):
 
     fig = plt.gcf()
     axes = plt.gca()
+    no_of_nodes = G.number_of_nodes()
     no_of_edges = G.number_of_edges()
-    edges_collection = axes.get_children()[no_of_edges + 3]
+    edges_collection = axes.get_children()[no_of_nodes + 3]
     edges = G.edges()
 
     if edge:
@@ -552,7 +553,60 @@ def set_edge_color(G, **kwargs):
     else:
         edges_collection.set_color(color)
 
-# TODO set_edge_linewidth
+    plt.draw()
+
+
+def set_edge_linewidth(G, **kwargs):
+    """
+    Change the linewidth of the edges.
+
+    parameters
+    ----------
+    G    : The graph whose edge widths are to be changed.
+
+    kwargs
+    ------
+    edge : The edge whose width is to be changed. If edge
+           not specified and a single width value is given
+           all the edges are changed to the specified width.
+           If edge not given and edge list is given the
+           width of the corresponding edge is changed. The
+           order of the edges can be seen from G.edges()
+
+    width: Width value. Either a list of a single value
+
+    Example
+    -------
+    set_edge_linewidth(G, edge=(1,2), width=4)
+    set_edge_linewidth(G, width=(1, 2, 3, 4, 5, 6))
+    """
+    try:
+        edge = kwargs['edge']
+    except KeyError:
+        edge = None
+    try:
+        linewidth = kwargs['width']
+    except KeyError:
+        print("width argument required")
+
+    fig = plt.gcf()
+    axes = plt.gca()
+    no_of_nodes = G.number_of_nodes()
+    no_of_edges = G.number_of_edges()
+    edges_collection = axes.get_children()[no_of_nodes + 3]
+    edges = G.edges()
+
+    if edge:
+        current_linewidth = edges_collection.get_linewidth()
+        edge_index = edges.indexof(edge)
+        if len(current_linewidth) == 1:
+            current_linewidth = [copy.deepcopy(current_linewidth[0])
+                                 for i in range(no_of_edges)]
+        current_linewidth[edge_index] = linewidth
+    else:
+        edges_collection.set_linewidth(linewidth)
+
+    plt.draw()
 
 # TODO set_edge_alpha
 
