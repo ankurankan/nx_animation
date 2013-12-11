@@ -493,6 +493,11 @@ def set_edge_color(G, **kwargs):
            order of the nodes can be seen from G.edges()
 
     color: Color value. Either a list of a single value
+
+    Examples
+    --------
+    set_edge_color(G, edge=(1,2), color='g')
+    set_edge_color(G, color='b')
     """
     try:
         edge = kwargs['edge']
@@ -504,14 +509,46 @@ def set_edge_color(G, **kwargs):
         print("color argument required")
         sys.exit(0)
 
+    if (isinstance(color, list) or isinstance(color, tuple)) and \
+            len(color) == 1:
+        color = color[0]
+
+    same_colors = {'blue': 'b',
+                   'green': 'g',
+                   'red': 'r',
+                   'cyan': 'c',
+                   'magenta': 'm',
+                   'yellow': 'y',
+                   'black': 'k',
+                   'white': 'w'}
+
+    if isinstance(color, str) and len(color) != 1:
+        color = same_colors[color]
+
+    colors_dict = {'b': (0.,    0.,    1.,  1.),
+                   'g': (0.,    0.5,   0.,  1.),
+                   'r': (1.,    0.,    0.,  1.),
+                   'c': (0.,    0.75,  0.75,  1.),
+                   'm': (0.75,  0.,    0.75,  1.),
+                   'y': (0.75,  0.75,  0.,  1.),
+                   'k': (0.,    0.,    0.,  1.),
+                   'w': (1.,    1.,    1.,  1.)}
+
     fig = plt.gcf()
     axes = plt.gca()
     no_of_edges = G.number_of_edges()
     edges_collection = axes.get_children()[no_of_edges + 3]
+    edges = G.edges()
 
     if edge:
-        pass
-#        TODO: complete this
+        edge_index = edges.indexof(edge)
+        edgecolor_array = edges_collection.get_color().tolist()
+        edgecolor_array = [tuple(x) for x in edgecolor_array]
+        if len(edgecolor_array) == 1:
+            edgecolor_array = [copy.deepcopy(edgecolor_array[0])
+                               for i in range(no_of_edges)]
+        edgecolor_array[edge_index] = colors_dict[color]
+        edges_collection.set_facecolor(edgecolor_array)
     else:
         edges_collection.set_color(color)
 
