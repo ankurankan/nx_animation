@@ -12,6 +12,17 @@ def _get_node_collection_object(G):
     return (fig, axes, no_of_nodes, nodes_collection)
 
 
+def _get_values_from_kwargs(dic, string):
+    try:
+        node = kwargs['node']
+    except KeyError:
+        node = None
+    try:
+        temp = kwargs['string']
+    except:
+        print(string + "argument required")
+        sys.exit(0)
+
 def set_node_position(G, **kwargs):
     """
     Moves node to position along with its edges.
