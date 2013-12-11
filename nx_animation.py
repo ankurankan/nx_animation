@@ -4,6 +4,14 @@ import sys
 import numpy as np
 
 
+def _get_node_collection_object(G):
+    fig = plt.gcf()
+    axes = plt.gca()
+    no_of_nodes = G.number_of_nodes()
+    nodes_collection = axes.get_children()[no_of_nodes + 2]
+    return (fig, axes, no_of_nodes, nodes_collection)
+
+
 def set_node_position(G, **kwargs):
     """
     Moves node to position along with its edges.
@@ -60,6 +68,7 @@ def _set_single_node_position(G, **kwargs):
         print("position argument required")
         sys.exit(0)
 
+    fig = plt.gcf()
     axes = plt.gca()
     node_index = G.nodes().index(node)
     no_of_nodes = G.number_of_nodes()
@@ -452,6 +461,7 @@ def set_node_alpha(G, alpha):
 
 # TODO set_edge_style
 
+
 def set_edge_color(G, **kwargs):
     """
     Change the color of the edges
@@ -487,6 +497,7 @@ def set_edge_color(G, **kwargs):
     edges_collection = axes.get_children()[no_of_edges + 3]
 
     if edge:
+        pass
 #        TODO: complete this
     else:
         edges_collection.set_color(color)
