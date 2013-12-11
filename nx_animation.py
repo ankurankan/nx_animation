@@ -9,19 +9,21 @@ def _get_node_collection_object(G):
     axes = plt.gca()
     no_of_nodes = G.number_of_nodes()
     nodes_collection = axes.get_children()[no_of_nodes + 2]
-    return (fig, axes, no_of_nodes, nodes_collection)
+    return fig, axes, no_of_nodes, nodes_collection
 
 
 def _get_values_from_kwargs(dic, string):
     try:
-        node = kwargs['node']
+        node = dic['node']
     except KeyError:
         node = None
     try:
-        temp = kwargs['string']
-    except:
+        value = dic['string']
+    except KeyError:
         print(string + "argument required")
         sys.exit(0)
+    return node, value
+
 
 def set_node_position(G, **kwargs):
     """
@@ -494,11 +496,11 @@ def set_edge_color(G, **kwargs):
     """
     try:
         edge = kwargs['edge']
-    except:
+    except KeyError:
         edge = None
     try:
         color = kwargs['color']
-    except:
+    except KeyError:
         print("color argument required")
         sys.exit(0)
 
